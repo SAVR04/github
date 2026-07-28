@@ -1,22 +1,31 @@
 class Solution {
+    public static void swap(int[] arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
 
-    public void backtrack(int index,int[] nums,List<Integer> temp,List<List<Integer>> answer)
+    public void backtrack(int index,int[] nums,List<List<Integer>> answer)
     {
-        if(temp.size()==nums.length)
+       
+        if(index==nums.length-1)
         {
-            answer.add(new ArrayList<>(temp));
+             List<Integer> temp=new ArrayList<>();
+            for(int x:nums){
+                
+                temp.add(x);
+                }
+            answer.add(temp);
 
         return;
         }
         
-        for(int i=0;i<nums.length;i++)
+        for(int i=index;i<nums.length;i++)
         {
-            if(!temp.contains(nums[i]))
-            {
-            temp.add(nums[i]);
-            backtrack(i+1,nums,temp,answer);
-            temp.remove(temp.size()-1);
-            }
+            swap(nums,i,index);
+            backtrack(index+1,nums,answer);
+            swap(nums,i,index);
+            
         }
 
 
@@ -24,9 +33,8 @@ class Solution {
     }
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> answer=new ArrayList<>();
-        List<Integer> temp=new ArrayList<>();
 
-        backtrack(0,nums,temp,answer);
+        backtrack(0,nums,answer);
 
         return answer;
 
